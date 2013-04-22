@@ -20,14 +20,14 @@ Parallel tree walking:
 ~~~~~~~~~~~~~~  
 int tree_walk(node *n)
 {  
-> int a = 0, b = 0;  
-> if (n->left)  
->> a = cilk_spawn tree_walk(n->left);  
->if (n->right)  
->> b = cilk_spawn tree_walk(n->right);  
-> int c = f(n->value);  
-> cilk_sync;  
-> return a + b + c;  
+  int a = 0, b = 0;  
+  if (n->left)  
+    a = cilk_spawn tree_walk(n->left);  
+  if (n->right)  
+    b = cilk_spawn tree_walk(n->right);  
+  int c = f(n->value);  
+  cilk_sync;  
+  return a + b + c;  
 }  
 ~~~~~~~~~~~~~~
 
