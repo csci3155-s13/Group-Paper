@@ -18,15 +18,15 @@ Paper WIP
 (All code examples are sourced from the aforementioned [proposal][].)  
 Parallel tree walking:  
 ~~~~~~~~~~~~~~  
-int tree\_walk(node *n)
+int tree_walk(node *n)
 {  
 > int a = 0, b = 0;  
 > if (n->left)  
->> a = cilk\_spawn tree\_walk(n->left);  
+>> a = cilk_spawn tree_walk(n->left);  
 >if (n->right)  
->> b = cilk\_spawn tree\_walk(n->right);  
+>> b = cilk_spawn tree_walk(n->right);  
 > int c = f(n->value);  
-> cilk\_sync;  
+> cilk_sync;  
 > return a + b + c;  
 }  
 ~~~~~~~~~~~~~~
