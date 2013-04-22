@@ -7,5 +7,8 @@ Referring to the Intel design document, Connor will cover material from sections
   
 Word count for each person will be approximately 300 for now.  
   
-**B. Final Copy**  
+**B. Revision**  
+We will review each others' work and add comments to the Rough Draft Comments.md file. After discussion, appropriate changes to the paper will be made.
+
+**C. Final Copy**  
 TBD
