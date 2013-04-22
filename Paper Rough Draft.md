@@ -20,3 +20,37 @@ Cilk_spawn gives permission for execution to proceed asynchronously. Control flo
   
 Cilk_sync demands that all children of the current task block complete their own execution before execution of the task block itself may resume.  
   
+--------------
+Sections 3 & 4. Edit as needed along with deleting all the extra markings.
+
+The following example shows a parallel tree walk in which a computation f() is performed on the value of each node in a binary tree, yielding an integer metric. The results of the computation are summed over the entire tree:
+~~~~~~~~~~~~~~
+int tree_walk(node *n)
+{
+  int a = 0, b = 0;
+  if (n->left)
+    a = cilk_spawn tree_walk(n->left);
+  if (n->right)
+    b = cilk_spawn tree_walk(n->right);
+  int c = f(n->value);
+  cilk_sync;
+  return a + b + c;
+}
+~~~~~~~~~~~~~~
+
+Here, cilk_spawn indicates to the compiler that execution can proceed asynchronously to the next statement, without waiting for the recursive tree_walk calls to complete. A cilk_spawn defines a task – a piece of work that is permitted to execute asynchronously with the caller and with other called tasks.
+When we need results from the spawned functions, cilk_sync is used to indicate a wait until all cilk_spawn subexpressions are complete. If cilk_sync is not explicitly defined, one is inserted at the end of the function. If tree_walk is deterministic, the meaning of the program is unchanged if Cilk keywords are removed (making it serialized). Easy serialization is one of the benefits of this approach since the work is easy for the programmers.
+
+Fork-join parallelism refers to a way of specifying parallel executions of a program where the flow forks into multiple "flows" that rejoin when all parallel work is complete. When a fork is reached, the original strand ends and two new ones begin, which MAY run parallel to one another. At the join points, one or more strands terminate and the new strand continues, as can be seen in the graphs.
+
+Adding the property of "strictness" to makes our usual fork-join parallelism model require that each function has exactly one incoming and one outgoing strand since asynchronous cilk_spawn function calls strictly nest within each other. Strict fork-join execution models have the following properties:
+  - A task can fork off one or more child tasks, each of which may execute in parallel with each other and the parent task
+  - A task can wait for its children to complete, but CANNOT wait for another non-child task to complete
+  - A task cannot complete until all children are complete
+
+The benefits of strictness in this model can be compared to that of using local variables and argument passing instead of global variables: decisions can be localized and individual parts of a program can be reasoned about without needing to understand the entire program at once. Thus, strict fork-join parallelism is very useful. Although it's obviously not perfect for all parallelized needs, it has the following benefits over less-organized parallel constructs:
+- Serial semantics: every program can be executed serially, since a serial execution is always a legal interpretation of the parallel program.
+- Composable: Parallel computations are allowed to be arbitrarily nested without taking more memory/runtime
+- Modular: Parallel functions made such that the caller doesn't need to know whether a function executes in parallel. Asynchronous tasks don't "leak", preventing data races and other issues. It should be noted that task leaks are worse than memory leaks since one task leak can crash a program.
+- Exceptions: Exceptions thrown from an asynchronous task will be caught at same place as if they were serialized in the program.
+- Easy analysis: Strict fork-join parallelism allows various tools to have lower memory bounds to analyze.
