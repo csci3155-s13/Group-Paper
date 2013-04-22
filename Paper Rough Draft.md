@@ -21,7 +21,7 @@ Cilk_spawn gives permission for execution to proceed asynchronously. Control flo
 Cilk_sync demands that all children of the current task block complete their own execution before execution of the task block itself may resume.  
   
 --------------
-Sections 3 & 4. Edit as needed along with deleting all the extra markings.
+Sections 3 & 4. Edit as needed since I'm over 450 words.
 
 The following example shows a parallel tree walk in which a computation f() is performed on the value of each node in a binary tree, yielding an integer metric. The results of the computation are summed over the entire tree:
 ~~~~~~~~~~~~~~
