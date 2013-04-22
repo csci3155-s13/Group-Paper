@@ -36,6 +36,8 @@ Research into the topic of adding parallelism to C++ has begun. I have located a
 Code examples have been located within the proposal. Group has been assembled.
 
 *Relevant Diagrams:*
+
+
 ![Photo 1](http://software.intel.com/sites/products/documentation/doclib/stdxe/2013/composerxe/compiler/cpp-mac/GUID-4A304012-DC9E-4683-816E-3F677B65E407-low.jpg)
 ![Photo 2](http://software.intel.com/sites/products/documentation/doclib/stdxe/2013/composerxe/compiler/cpp-mac/GUID-B12BF5FE-66F8-49CC-9D56-F36A1DC2EC73-low.jpg)
 ![Photo 3](http://software.intel.com/sites/products/documentation/doclib/stdxe/2013/composerxe/compiler/cpp-mac/GUID-E8B7EA98-DAEF-4DCF-AFC7-D52D79AB7284-low.jpg)
