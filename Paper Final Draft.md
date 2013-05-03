@@ -1,3 +1,7 @@
+Strict Fork-Join Parallelism
+============================
+By Dylan Miller, Derek Baumgartner, and Connor Guerrieri
+
 Fork-join parallelism refers to a way of specifying parallel executions of a program where the flow forks into multiple "flows" that rejoin when all parallel work is complete. When a fork is reached, the original strand ends and two new ones begin, which *may* run parallel to one another. At the join points, one or more strands terminate and the new strand continues.
 
 Adding the property of "strictness" makes our usual fork-join parallelism model require that each function has exactly one incoming and one outgoing strand since asynchronous cilk_spawn function calls strictly nest within each other. Strict fork-join execution models have the following properties. One or more child tasks can be forked off, each executing in parallel with each other and the parent task. A task may wait for its children to complete, but not for another non-child task to complete. A task cannot complete until all children are complete
